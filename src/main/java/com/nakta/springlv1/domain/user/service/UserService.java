@@ -10,23 +10,17 @@ import com.nakta.springlv1.domain.user.exception.UserErrorCode;
 import com.nakta.springlv1.global.exception.CustomException;
 import com.nakta.springlv1.domain.user.jwt.JwtUtil;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
+@RequiredArgsConstructor
 @Service
 public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
-    private final JwtUtil jwtUtil;
-
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, JwtUtil jwtUtil) {
-        this.userRepository = userRepository;
-        this.passwordEncoder = passwordEncoder;
-        this.jwtUtil = jwtUtil;
-    }
-
     private final String ADMIN_TOKEN = "MEronGMERoNGaMEROngMErONG";
 
     public StringResponseDto signup(SignupRequestDto requestDto) {
