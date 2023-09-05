@@ -35,13 +35,13 @@ public class BoardController {
     }
 
     @PutMapping("/board/{id}")
-    public ResponseEntity<BoardResponseDto> modifyBoard(@PathVariable Long id, @RequestBody BoardRequestDto requestDto, HttpServletRequest req) {
-        return ResponseEntity.ok(boardService.modifyBoard(id, requestDto, req));
+    public ResponseEntity<BoardResponseDto> modifyBoard(@PathVariable Long id, @RequestBody BoardRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        return ResponseEntity.ok(boardService.modifyBoard(id, requestDto, userDetails.getUser()));
     }
 
     @DeleteMapping("/board/{id}")
-    public ResponseEntity<StringResponseDto> deleteBoard(@PathVariable Long id, HttpServletRequest req) {
-        return ResponseEntity.ok(boardService.deleteBoard(id, req));
+    public ResponseEntity<StringResponseDto> deleteBoard(@PathVariable Long id, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        return ResponseEntity.ok(boardService.deleteBoard(id, userDetails.getUser()));
     }
 
 }

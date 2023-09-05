@@ -40,9 +40,8 @@ public class Board extends Timestamped {
         this.user = user;
     }
 
-    public void update(BoardRequestDto requestDto, String subject) {
+    public void update(BoardRequestDto requestDto) {
         this.title = requestDto.getTitle();
-        this.username = subject;
         this.content = requestDto.getContent();
     }
 }
