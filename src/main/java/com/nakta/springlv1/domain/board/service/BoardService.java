@@ -38,7 +38,7 @@ public class BoardService {
 
         Claims info = jwtUtil.getUserInfoFromToken(tokenValue);
         User user = userRepository.findByUsername(info.getSubject()).orElseThrow(() -> {
-            throw new CustomException(BoardErrorCode.CANNOT_FIND_USER); //무조건 USER가 존재할수밖에 없지않나?
+            throw new CustomException(BoardErrorCode.CANNOT_FIND_USER);
         });
 
         Board board = new Board(requestDto, user);
