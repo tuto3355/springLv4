@@ -19,7 +19,6 @@ import java.util.Optional;
 public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
-
     private final JwtUtil jwtUtil;
 
     public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, JwtUtil jwtUtil) {
@@ -52,21 +51,4 @@ public class UserService {
         return new StringResponseDto( "새로운 아이디 저장 성공 ㅋㅋ");
 
     }
-
-//    public StringResponseDto login(LoginRequestDto requestDto, HttpServletResponse res) {
-//        String username = requestDto.getUsername();
-//        String password = requestDto.getPassword();
-//
-//        User user = userRepository.findByUsername(username).orElseThrow(
-//                ()-> new CustomException(UserErrorCode.ID_NOT_FOUND)
-//        );
-//
-//        if (!passwordEncoder.matches(password,user.getPassword())) {
-//            throw new CustomException(UserErrorCode.PASSWORD_NOT_MATCH);
-//        }
-//        String token = jwtUtil.createToken(user.getUsername(), user.getRole());
-//        jwtUtil.addJwtToCookie(token, res);
-//        return new StringResponseDto("로그인 성공 ㅋㅋ");
-//
-//    }
 }

@@ -31,16 +31,7 @@ public class BoardService {
 
     private final JwtUtil jwtUtil;
 
-    public BoardResponseDto createBoard(BoardRequestDto requestDto, HttpServletRequest req) {
-
-        //토큰 검증
-        String tokenValue = validateToken(req);
-
-        Claims info = jwtUtil.getUserInfoFromToken(tokenValue);
-        User user = userRepository.findByUsername(info.getSubject()).orElseThrow(() -> {
-            throw new CustomException(BoardErrorCode.CANNOT_FIND_USER);
-        });
-
+    public BoardResponseDto createBoard(BoardRequestDto requestDto, User user) {
         Board board = new Board(requestDto, user);
         Board newboard = boardRepository.save(board);
         return new BoardResponseDto(newboard);

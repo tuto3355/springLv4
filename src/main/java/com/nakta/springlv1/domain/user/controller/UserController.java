@@ -29,10 +29,4 @@ public class UserController {
     public ResponseEntity<StringResponseDto> signup(@Valid @RequestBody SignupRequestDto requestDto) {
         return ResponseEntity.ok(userService.signup(requestDto));
     }
-
-//    @ResponseBody
-//    @PostMapping("/user/login")
-//    public ResponseEntity<StringResponseDto> login(@RequestBody LoginRequestDto requestDto, HttpServletResponse res) {
-//        return ResponseEntity.ok(userService.login(requestDto, res));
-//    }
 }

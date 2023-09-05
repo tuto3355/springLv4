@@ -6,6 +6,7 @@ import com.nakta.springlv1.domain.comment.entity.Comment;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -16,7 +17,7 @@ public class BoardResponseDto {
     private String content;
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
-    private List<CommentResponseDto> commentList;
+    private List<CommentResponseDto> commentList = new ArrayList<>();
 
     public BoardResponseDto(Board board) {
         this.id = board.getId();
