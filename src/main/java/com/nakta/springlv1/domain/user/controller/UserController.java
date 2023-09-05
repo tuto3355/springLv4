@@ -30,9 +30,9 @@ public class UserController {
         return ResponseEntity.ok(userService.signup(requestDto));
     }
 
-    @ResponseBody
-    @PostMapping("/user/login")
-    public ResponseEntity<StringResponseDto> login(@RequestBody LoginRequestDto requestDto, HttpServletResponse res) {
-        return ResponseEntity.ok(userService.login(requestDto, res));
-    }
+//    @ResponseBody
+//    @PostMapping("/user/login")
+//    public ResponseEntity<StringResponseDto> login(@RequestBody LoginRequestDto requestDto, HttpServletResponse res) {
+//        return ResponseEntity.ok(userService.login(requestDto, res));
+//    }
 }
