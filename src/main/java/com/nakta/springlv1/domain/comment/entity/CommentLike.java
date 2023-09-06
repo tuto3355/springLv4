@@ -13,8 +13,8 @@ public class CommentLike {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     private Long id;
-    @Column(name = "isLike", nullable = false)
-    boolean isLike;
+//    @Column(name = "isLike", nullable = false)
+//    boolean isLike;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
@@ -27,6 +27,6 @@ public class CommentLike {
     public CommentLike(User user, Comment comment) {
         this.user = user;
         this.comment = comment;
-        this.isLike = true;
+//        this.isLike = true;
     }
 }
