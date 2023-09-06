@@ -3,6 +3,8 @@ package com.nakta.springlv1.domain.board.service;
 import com.nakta.springlv1.domain.board.dto.BoardRequestDto;
 import com.nakta.springlv1.domain.board.dto.BoardResponseDto;
 import com.nakta.springlv1.domain.board.entity.Board;
+import com.nakta.springlv1.domain.board.entity.BoardLike;
+import com.nakta.springlv1.domain.board.repository.BoardLikeRepository;
 import com.nakta.springlv1.domain.board.repository.BoardRepository;
 import com.nakta.springlv1.domain.comment.dto.CommentResponseDto;
 import com.nakta.springlv1.domain.comment.entity.Comment;
@@ -19,12 +21,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 public class BoardService {
     private final BoardRepository boardRepository;
     private final CommentRepository commentRepository;
+    private final BoardLikeRepository boardLikeRepository;
     private final UserRepository userRepository;
 
     private final JwtUtil jwtUtil;
@@ -77,6 +81,21 @@ public class BoardService {
         return new StringResponseDto("삭제를 성공하였음");
     }
 
+    @Transactional
+    public StringResponseDto likeBoard(Long id, User user) {
+        Board board = findById(id);
+        Optional<BoardLike> boardLike = boardLikeRepository.findByUserAndBoard(user, board);
+        if (boardLike.isPresent()) {
+            board.updateLikes(-1);
+            boardLikeRepository.deleteByUserAndBoard(user, board);
+            return new StringResponseDto("좋아요 취소 성공!!");
+        } else {
+            board.updateLikes(1);
+            boardLikeRepository.save(new BoardLike(user, board));
+            return new StringResponseDto("좋아요 성공!!");
+        }
+    }
+
     private Board findById(Long id) {
         return boardRepository.findById(id).orElseThrow(() -> new CustomException(ErrorCode.CANNOT_FIND_BOARD));
     }
@@ -86,4 +105,6 @@ public class BoardService {
         responseDto.addCommentList(list.stream().map(CommentResponseDto::new).toList());
         return responseDto;
     }
+
+
 }

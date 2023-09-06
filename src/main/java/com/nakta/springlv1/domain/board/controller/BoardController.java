@@ -20,7 +20,8 @@ public class BoardController {
     private final BoardService boardService;
 
     @PostMapping("")
-    public ResponseEntity<BoardResponseDto> createBoard(@RequestBody BoardRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+    public ResponseEntity<BoardResponseDto> createBoard(@RequestBody BoardRequestDto requestDto,
+                                                        @AuthenticationPrincipal UserDetailsImpl userDetails) {
         return ResponseEntity.ok(boardService.createBoard(requestDto, userDetails.getUser()));
     }
 
@@ -34,13 +35,21 @@ public class BoardController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<BoardResponseDto> modifyBoard(@PathVariable Long id, @RequestBody BoardRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+    public ResponseEntity<BoardResponseDto> modifyBoard(@PathVariable Long id, @RequestBody BoardRequestDto requestDto,
+                                                        @AuthenticationPrincipal UserDetailsImpl userDetails) {
         return ResponseEntity.ok(boardService.modifyBoard(id, requestDto, userDetails.getUser()));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<StringResponseDto> deleteBoard(@PathVariable Long id, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+    public ResponseEntity<StringResponseDto> deleteBoard(@PathVariable Long id,
+                                                         @AuthenticationPrincipal UserDetailsImpl userDetails) {
         return ResponseEntity.ok(boardService.deleteBoard(id, userDetails.getUser()));
+    }
+
+    @GetMapping("/{id}/like")
+    public ResponseEntity<StringResponseDto> likeBoard(@PathVariable Long id,
+                                                       @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        return ResponseEntity.ok(boardService.likeBoard(id, userDetails.getUser()));
     }
 
 }

@@ -25,6 +25,8 @@ public class Board extends Timestamped {
     private String username;
     @Column(name = "content", nullable = false, length = 500)
     private String content;
+    @Column(name = "likes")
+    private Long likes;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
@@ -33,15 +35,23 @@ public class Board extends Timestamped {
     @OneToMany(mappedBy = "board", cascade = CascadeType.REMOVE)
     private List<Comment> commentList = new ArrayList<>();
 
+    @OneToMany(mappedBy = "board", cascade = CascadeType.REMOVE)
+    private List<BoardLike> boardLikeList = new ArrayList<>();
+
     public Board(BoardRequestDto requestDto, User user) {
         this.title = requestDto.getTitle();
         this.username = user.getUsername();
         this.content = requestDto.getContent();
         this.user = user;
+        this.likes = 0L;
     }
 
     public void update(BoardRequestDto requestDto) {
         this.title = requestDto.getTitle();
         this.content = requestDto.getContent();
+    }
+
+    public void updateLikes(int num) {
+        this.likes += num;
     }
 }

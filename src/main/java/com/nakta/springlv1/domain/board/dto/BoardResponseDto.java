@@ -2,7 +2,6 @@ package com.nakta.springlv1.domain.board.dto;
 
 import com.nakta.springlv1.domain.board.entity.Board;
 import com.nakta.springlv1.domain.comment.dto.CommentResponseDto;
-import com.nakta.springlv1.domain.comment.entity.Comment;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
@@ -15,6 +14,7 @@ public class BoardResponseDto {
     private String title;
     private String username;
     private String content;
+    private Long likes;
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
     private List<CommentResponseDto> commentList = new ArrayList<>();
@@ -24,6 +24,7 @@ public class BoardResponseDto {
         this.title = board.getTitle();
         this.username = board.getUsername();
         this.content = board.getContent();
+        this.likes = board.getLikes();
         this.createdAt = board.getCreatedAt();
         this.modifiedAt = board.getModifiedAt();
     }
