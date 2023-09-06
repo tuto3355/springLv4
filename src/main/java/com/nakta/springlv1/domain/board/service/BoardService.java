@@ -47,7 +47,7 @@ public class BoardService {
     }
 
     public BoardResponseDto getOneBoard(Long id) {
-        Board board = findById(id);
+        Board board = findBoardById(id);
         BoardResponseDto responseDto = new BoardResponseDto(board);
         return addCommentListByBoard_id(responseDto);
     }
@@ -56,7 +56,7 @@ public class BoardService {
     public BoardResponseDto modifyBoard(Long id, BoardRequestDto requestDto, User user) {
 
         //작성자 일치 확인
-        Board board = findById(id);
+        Board board = findBoardById(id);
 
         if(!(user.getRole()== UserRoleEnum.ADMIN)) {
             if (!(user.getUsername().equals(board.getUsername()))) {
@@ -70,7 +70,7 @@ public class BoardService {
     public StringResponseDto deleteBoard(Long id, User user) {
 
         //작성자 일치 확인
-        Board board = findById(id);
+        Board board = findBoardById(id);
 
         if(!(user.getRole()== UserRoleEnum.ADMIN)) {
             if (!(user.getUsername().equals(board.getUsername()))) {
@@ -83,7 +83,7 @@ public class BoardService {
 
     @Transactional
     public StringResponseDto likeBoard(Long id, User user) {
-        Board board = findById(id);
+        Board board = findBoardById(id);
         Optional<BoardLike> boardLike = boardLikeRepository.findByUserAndBoard(user, board);
         if (boardLike.isPresent()) {
             board.updateLikes(-1);
@@ -96,7 +96,7 @@ public class BoardService {
         }
     }
 
-    private Board findById(Long id) {
+    private Board findBoardById(Long id) {
         return boardRepository.findById(id).orElseThrow(() -> new CustomException(ErrorCode.CANNOT_FIND_BOARD));
     }
 

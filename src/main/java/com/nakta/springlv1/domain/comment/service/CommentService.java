@@ -5,6 +5,8 @@ import com.nakta.springlv1.domain.board.repository.BoardRepository;
 import com.nakta.springlv1.domain.comment.dto.CommentRequestDto;
 import com.nakta.springlv1.domain.comment.dto.CommentResponseDto;
 import com.nakta.springlv1.domain.comment.entity.Comment;
+import com.nakta.springlv1.domain.comment.entity.CommentLike;
+import com.nakta.springlv1.domain.comment.repository.CommentLikeRepository;
 import com.nakta.springlv1.domain.comment.repository.CommentRepository;
 import com.nakta.springlv1.domain.user.dto.StringResponseDto;
 import com.nakta.springlv1.domain.user.entity.User;
@@ -17,6 +19,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 public class CommentService {
@@ -24,6 +28,7 @@ public class CommentService {
     private final CommentRepository commentRepository;
     private final UserRepository userRepository;
     private final BoardRepository boardRepository;
+    private final CommentLikeRepository commentLikeRepository;
     private final JwtUtil jwtUtil;
 
     public CommentResponseDto createComment(Long id, CommentRequestDto requestDto, User user) {
@@ -70,5 +75,23 @@ public class CommentService {
         }
         commentRepository.deleteById(commentId);
         return new StringResponseDto("삭제가 잘 되었따");
+    }
+    @Transactional
+    public StringResponseDto likeBoard(Long id, User user) {
+        Comment comment = findCommentById(id);
+        Optional<CommentLike> commentLike = commentLikeRepository.findByUserAndComment(user, comment);
+        if (commentLike.isPresent()) {
+            comment.updateLikes(-1);
+            commentLikeRepository.deleteByUserAndComment(user, comment);
+            return new StringResponseDto("좋아요 취소 성공!!");
+        } else {
+            comment.updateLikes(1);
+            commentLikeRepository.save(new CommentLike(user, comment));
+            return new StringResponseDto("좋아요 성공!!");
+        }
+    }
+
+    private Comment findCommentById(Long id) {
+        return commentRepository.findById(id).orElseThrow(() -> new CustomException(ErrorCode.CANNOT_FIND_COMMENT));
     }
 }
