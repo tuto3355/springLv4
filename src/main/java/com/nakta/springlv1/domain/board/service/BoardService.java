@@ -2,18 +2,18 @@ package com.nakta.springlv1.domain.board.service;
 
 import com.nakta.springlv1.domain.board.dto.BoardRequestDto;
 import com.nakta.springlv1.domain.board.dto.BoardResponseDto;
-import com.nakta.springlv1.domain.board.exception.BoardErrorCode;
+import com.nakta.springlv1.domain.board.entity.Board;
 import com.nakta.springlv1.domain.board.repository.BoardRepository;
 import com.nakta.springlv1.domain.comment.dto.CommentResponseDto;
 import com.nakta.springlv1.domain.comment.entity.Comment;
 import com.nakta.springlv1.domain.comment.repository.CommentRepository;
 import com.nakta.springlv1.domain.user.dto.StringResponseDto;
-import com.nakta.springlv1.domain.board.entity.Board;
 import com.nakta.springlv1.domain.user.entity.User;
 import com.nakta.springlv1.domain.user.entity.UserRoleEnum;
 import com.nakta.springlv1.domain.user.jwt.JwtUtil;
 import com.nakta.springlv1.domain.user.repository.UserRepository;
 import com.nakta.springlv1.global.exception.CustomException;
+import com.nakta.springlv1.global.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -56,7 +56,7 @@ public class BoardService {
 
         if(!(user.getRole()== UserRoleEnum.ADMIN)) {
             if (!(user.getUsername().equals(board.getUsername()))) {
-                throw new CustomException(BoardErrorCode.ID_NOT_MATCH);
+                throw new CustomException(ErrorCode.ID_NOT_MATCH);
             }
         }
         board.update(requestDto);
@@ -70,7 +70,7 @@ public class BoardService {
 
         if(!(user.getRole()== UserRoleEnum.ADMIN)) {
             if (!(user.getUsername().equals(board.getUsername()))) {
-                throw new CustomException(BoardErrorCode.ID_NOT_MATCH);
+                throw new CustomException(ErrorCode.ID_NOT_MATCH);
             }
         }
         boardRepository.deleteById(id);
@@ -78,7 +78,7 @@ public class BoardService {
     }
 
     private Board findById(Long id) {
-        return boardRepository.findById(id).orElseThrow(() -> new CustomException(BoardErrorCode.CANNOT_FIND_BOARD));
+        return boardRepository.findById(id).orElseThrow(() -> new CustomException(ErrorCode.CANNOT_FIND_BOARD));
     }
 
     private BoardResponseDto addCommentListByBoard_id(BoardResponseDto responseDto) {
